@@ -83,4 +83,48 @@ const getSingleCategory = (req, res) => {
     });
 };
 
-module.exports = { addJobCategory, getAllCategory, getSingleCategory };
+const updateCategory = (req,res)=>{
+  Category.findOne({_id:req.body._id})
+  .then(categoryData=>{
+    if(!categoryData){
+      res.send({
+        status:420,
+        success: false,
+        message: "Data not found!",
+        data: categoryData,
+      })
+    }else{
+      if(req.body.categoryName)
+        categoryData.categoryName= req.body.categoryName;
+      if(req.body.description)
+        categoryData.description= req.body.description;
+      categoryData.save()
+      .then(data=>{
+        res.send({
+          status: 200,
+          success:true,
+          message: "Data updated successfully",
+          data:data,
+        })
+      })
+      .catch(err=>{
+        res.send({
+          status: 500,
+          success: false,
+          message: "Internal server error!",
+          error: err.message,
+        })
+      })
+    }
+  })
+  .catch(err=>{
+    res.send({
+      status: 500,
+      success: false,
+      message: "Internal server error!",
+      error: err.message,
+    })
+  })
+}
+
+module.exports = { addJobCategory, getAllCategory, getSingleCategory, updateCategory };
