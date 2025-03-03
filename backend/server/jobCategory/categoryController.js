@@ -4,7 +4,7 @@ const addJobCategory = (req, res) => {
   var validationerror = [];
   if (!req.body.categoryName) validationerror.push("categoryName is required.");
   if (!req.body.description) validationerror.push("description is required.");
-  if (validationerror) {
+  if (validationerror.length > 0) {
     res.send({
       status: 420,
       success: false,
@@ -15,7 +15,8 @@ const addJobCategory = (req, res) => {
     const categoryObj = Category();
     categoryObj.categoryName = req.body.categoryName;
     categoryObj.description = req.body.description;
-    categoryObj.save()
+    categoryObj
+      .save()
       .then((categoryData) => {
         res.send({
           status: true,
@@ -33,4 +34,33 @@ const addJobCategory = (req, res) => {
   }
 };
 
-module.exports = { addJobCategory };
+const getAllCategory = (req, res) => {
+  Category.find()
+    .then((data) => {
+      if (!data) {
+        res.send({
+          status: 420,
+          success: false,
+          message: "Data not found!",
+          data: data,
+        });
+      } else {
+        res.send({
+          status: 200,
+          success: true,
+          message: "Data founded successfully",
+          data: data,
+        });
+      }
+    })
+    .catch((err) => {
+      res.send({
+        status: 500,
+        success: false,
+        message: "Internal server error!",
+        data: err.message,
+      });
+    });
+};
+
+module.exports = { addJobCategory, getAllCategory };
