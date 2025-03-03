@@ -63,4 +63,24 @@ const getAllCategory = (req, res) => {
     });
 };
 
-module.exports = { addJobCategory, getAllCategory };
+const getSingleCategory = (req, res) => {
+  Category.findOne({ _id: req.body._id })
+    .then((data) => {
+      res.send({
+        status: 200,
+        success: true,
+        message: "Data loaded",
+        data: data,
+      });
+    })
+    .catch((err) => {
+      res.send({
+        status: 500,
+        success: false,
+        message: "Internal server error!",
+        error: err.message,
+      });
+    });
+};
+
+module.exports = { addJobCategory, getAllCategory, getSingleCategory };
