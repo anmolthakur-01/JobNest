@@ -1,6 +1,6 @@
 const Category = require("./categoryModel");
 
-const addJobCategory = (req, res) => {  
+const addJobCategory = (req, res) => {
   var validationerror = [];
   if (!req.body.categoryName) validationerror.push("categoryName is required.");
   if (!req.body.description) validationerror.push("description is required.");

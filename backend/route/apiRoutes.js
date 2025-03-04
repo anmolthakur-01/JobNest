@@ -11,5 +11,9 @@ router.post("/category/delete", categoryController.deleteCategory);
 
 // Job Post Routes
 router.use("/post/add", postController.addJobPost);
+router.use("/post/getall", postController.getAllPost);
+router.use("/post/getsingle", postController.getSinglePost);
+router.use("/post/update", postController.updatePost);
+router.use("/post/delete", postController.deletePost);
 
 module.exports = router;
