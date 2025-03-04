@@ -7,4 +7,4 @@ const jobCategorySchema = mongoose.Schema({
   createAt: { type: Date, default: Date.now() },
 });
 
-module.exports = mongoose.model("category", jobCategorySchema);
+module.exports = mongoose.model("jobCategory", jobCategorySchema);
