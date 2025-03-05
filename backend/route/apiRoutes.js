@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const categoryController = require("../server/jobCategory/categoryController");
 const postController = require("../server/jobPost/jobPostController");
-const registerController = require('../server/register/registerController')
+const registerController = require("../server/register/registerController");
+const seekerController = require("../server/jobSeeker/seekerController");
 
 // Job Category Routes
 router.post("/category/add", categoryController.addJobCategory);
@@ -23,5 +24,12 @@ router.post("/register/getall", registerController.getRegisterData);
 router.post("/register/getsingle", registerController.getSingleRegisterData);
 router.post("/register/update", registerController.updateData);
 router.post("/register/delete", registerController.deleteData);
+
+// Job Seeker Routes
+router.post("/jobseeker/add", seekerController.add);
+router.post('/jobseeker/getall', seekerController.getAll);
+router.post('/jobseeker/getsingle', seekerController.getSingle);
+router.post('/jobseeker/update', seekerController.update);
+router.post('/jobseeker/delete', seekerController.deleteData);
 
 module.exports = router;
