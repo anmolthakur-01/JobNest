@@ -3,6 +3,8 @@ const categoryController = require("../server/jobCategory/categoryController");
 const postController = require("../server/jobPost/jobPostController");
 const registerController = require("../server/register/registerController");
 const seekerController = require("../server/jobSeeker/seekerController");
+const educationController = require("../server/education/educationController");
+const experienceController = require("../server/experience/experienceController");
 
 // Job Category Routes
 router.post("/category/add", categoryController.addJobCategory);
@@ -27,9 +29,24 @@ router.post("/register/delete", registerController.deleteData);
 
 // Job Seeker Routes
 router.post("/jobseeker/add", seekerController.add);
-router.post('/jobseeker/getall', seekerController.getAll);
-router.post('/jobseeker/getsingle', seekerController.getSingle);
-router.post('/jobseeker/update', seekerController.update);
-router.post('/jobseeker/delete', seekerController.deleteData);
+router.post("/jobseeker/getall", seekerController.getAll);
+router.post("/jobseeker/getsingle", seekerController.getSingle);
+router.post("/jobseeker/update", seekerController.update);
+router.post("/jobseeker/delete", seekerController.deleteData);
+
+// Education Routes
+router.post("/education/add", educationController.addEducation);
+router.post("/education/getall", educationController.getAllEducation);
+router.post("/education/getsingle", educationController.getSingleEducation);
+router.post("/education/update", educationController.updateEducation);
+router.post("/education/delete", educationController.deleteEducation);
+
+
+// Job Experience Routes
+router.post("/experience/add", experienceController.addExperience);
+router.post("/experience/getall", experienceController.getAllExperience);
+router.post("/experience/getsingle", experienceController.getSingleExperience);
+router.post("/experience/update", experienceController.updateExperience);
+router.post("/experience/delete", experienceController.deleteExperience);
 
 module.exports = router;

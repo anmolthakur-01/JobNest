@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const adminroutes = require("./route/apiRoutes");
+const adminroutes = require("./routes/apiRoutes");
 
 const db = require("./config/db");
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
