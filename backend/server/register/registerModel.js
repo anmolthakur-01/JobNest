@@ -10,7 +10,7 @@ const registerSchema = mongoose.Schema({
   website: { type: String, default: null },
   logo: { type: String, default: null },
   createdAt: { type: Date, default: Date.now() },
-  status: { type: Boolean, default: "true" },
+  status: { type: Boolean, default: true },
 });
 
 module.exports = mongoose.model("register", registerSchema);

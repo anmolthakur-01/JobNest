@@ -14,6 +14,7 @@ app.get("/", function (req, res) {
 });
 
 app.listen(3000, (err) => {
-  if (err) throw "Server error occur!"
-  else "Server running at port no. " + 3000
+  if (err) throw console.log("Server error occur!");
+  
+  else console.log("Server running at port no. " + 3000);
 })

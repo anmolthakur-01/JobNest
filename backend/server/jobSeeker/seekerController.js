@@ -1,4 +1,9 @@
 const Seeker = require("./seekerModel");
+const User = require("../user/userModel")
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const saltRounds = 10;
+const privateKey = "@#97$787@5#8#$";
 
 const add = (req, res) => {
   var validationerror = [];
@@ -15,7 +20,8 @@ const add = (req, res) => {
       error: validationerror,
     });
   } else {
-    Seeker.findOne({ name: req.body.name }).then((seekerData) => {
+    Seeker.findOne({ email: req.body.email })
+    .then((seekerData) => {
       if (seekerData) {
         res.send({
           status: 420,
@@ -27,7 +33,7 @@ const add = (req, res) => {
         let seekerObj = new Seeker();
         seekerObj.name = req.body.name;
         seekerObj.email = req.body.email;
-        seekerObj.password = req.body.password;
+        seekerObj.password = bcrypt.hashSync(req.body.password, saltRounds);
         seekerObj.phone = req.body.phone;
         seekerObj.resume = req.body.resume;
         seekerObj
@@ -57,6 +63,68 @@ const add = (req, res) => {
           });
       }
     });
+  }
+};
+
+const login = (req, res) => {
+  var validationerror = [];
+  if (!req.body.email) validationerror.push("email is required");
+  if (!req.body.password) validationerror.push("password is required");
+  if (validationerror.length > 0) {
+    res.send({
+      status: 404,
+      success: false,
+      message: "validationerror error occur",
+      error: validationerror,
+    });
+  } else {
+    User.findOne({ email: req.body.email })
+      .then((userdata) => {
+        // if (!userdata) {
+        //   res.send({
+        //     status: 420,
+        //     success: false,
+        //     message: "invalid email",
+        //   });
+        // } else {
+          bcrypt.compare(
+            req.body.password,
+            userdata.password,
+            function (err, data) {
+              if (!data) {
+                res.send({
+                  status: 420,
+                  success: false,
+                  message: "invalid password",
+                });
+              } else {
+                var tokenObj = {
+                  _id: userdata._id,
+                  name: userdata.name,
+                  email: userdata.email,
+                  userType: userdata.userType,
+                };
+                var token = jwt.sign(tokenObj, privatekey);
+                res.send({
+                  status: 200,
+                  success: true,
+                  message: "Login Successfully !!",
+                  token: token,
+                  data: userdata,
+                });
+              }
+            }
+          );
+        // }
+      })
+      .catch((err) => {
+        res.send({
+          status: 500,
+          success: false,
+          message: "Internal server error",
+          error: err.message,
+        });
+      });
   }
 };
 
@@ -228,6 +296,7 @@ const deleteData = (req, res) => {
 
 module.exports = {
   add,
+  login,
   getAll,
   getSingle,
   update,

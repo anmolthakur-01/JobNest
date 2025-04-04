@@ -29,6 +29,7 @@ router.post("/register/delete", registerController.deleteData);
 
 // Job Seeker Routes
 router.post("/jobseeker/add", seekerController.add);
+router.post("/jobseeker/login", seekerController.login);
 router.post("/jobseeker/getall", seekerController.getAll);
 router.post("/jobseeker/getsingle", seekerController.getSingle);
 router.post("/jobseeker/update", seekerController.update);

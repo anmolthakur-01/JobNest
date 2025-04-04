@@ -19,7 +19,7 @@ const experienceSchema = new mongoose.Schema({
   },
   fromDate: {
     type: String,
-    default: null,
+    default: Date.now,
   },
   toDate: {
     type: String,
