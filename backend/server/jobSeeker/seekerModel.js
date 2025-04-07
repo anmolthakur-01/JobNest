@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const seekerSchema = mongoose.Schema({
-  userId:{type:mongoose.Schema.ObjectId,ref:'user',default:null},
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', default: null },
   name: { type: String, default: null },
   email: { type: String, default: null },
   password: { type: String, default: null },

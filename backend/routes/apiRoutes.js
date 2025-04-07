@@ -22,6 +22,7 @@ router.use("/post/delete", postController.deletePost);
 
 // Employer Routes
 router.post("/employer/add", employerController.add);
+router.post("/employer/login", employerController.login);
 router.post("/employer/getall", employerController.getEmployerData);
 router.post("/employer/getsingle", employerController.getSingleEmployerData);
 router.post("/employer/update", employerController.updateData);

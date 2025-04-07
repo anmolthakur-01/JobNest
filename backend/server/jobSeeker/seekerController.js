@@ -19,61 +19,54 @@ const add = (req, res) => {
       message: "Data not found!",
       error: validationerror,
     });
-  } 
+  }
   User.findOne({ email: req.body.email })
-  .then(seekerData => {
+    .then((seekerData) => {
       if (!seekerData) {
-        let userObj = new User()
-        userObj.name = req.body.name
-        userObj.email = req.body.email
-        userObj.password = bcrypt.hashSync(req.body.password,saltRounds)
+        let userObj = new User();
+        userObj.name = req.body.name;
+        userObj.email = req.body.email;
+        userObj.password = bcrypt.hashSync(req.body.password, saltRounds);
         userObj.save()
-
-       .then(seekerSave=>{
-        let seekerObj = new Seeker();
-        seekerObj.name = req.body.name;
-        seekerObj.email = req.body.email;
-        seekerObj.password = bcrypt.hashSync(req.body.password, saltRounds);
-        seekerObj.phone = req.body.phone;
-        seekerObj.resume = req.body.resume;
-        seekerObj.userId = req.body.userId;
-
-        seekerObj.save()
-          .then(seekerData => {
-            res.send({
-              status: 200,
-              success: true,
-              message: "Seeker register success",
-              data: seekerData
-          })
-        
-           
-          })
-          .catch((err) => {
-            res.send({
-              status: false,
-              message: "Internal server error!",
-              error: err.message,
+        .then((seekerSave) => {
+          let seekerObj = new Seeker();
+          seekerObj.name = req.body.name;
+          seekerObj.email = req.body.email;
+          seekerObj.password = bcrypt.hashSync(req.body.password, saltRounds);
+          seekerObj.phone = req.body.phone;
+          seekerObj.resume = req.body.resume;
+          seekerObj.userId = req.body.userId;
+          seekerObj.save()
+            .then((seekerData) => {
+              res.send({
+                status: 200,
+                success: true,
+                message: "Seeker register success",
+                data: seekerData,
+              });
+            })
+            .catch((err) => {
+              res.send({
+                status: false,
+                message: "Internal server error!",
+                error: err.message,
+              });
             });
-          });
-        })
-
-        }
-        else{
-          res.send({
-            status: false,
-            message: "Record is already exist",
-        
-          });
-        }
-  })
-  .catch((err) => {
-    res.send({
-      status: false,
-      message: "Internal server error!",
-      error: err.message,
+        });
+      } else {
+        res.send({
+          status: false,
+          message: "Record is already exist",
+        });
+      }
+    })
+    .catch((err) => {
+      res.send({
+        status: false,
+        message: "Internal server error!",
+        error: err.message,
+      });
     });
-  });
 };
 
 const login = (req, res) => {
@@ -100,7 +93,7 @@ const login = (req, res) => {
           bcrypt.compare(
             req.body.password,
             userdata.password,
-            (err, result) =>{
+            (err, result) => {
               if (!result) {
                 res.send({
                   status: 420,
@@ -114,7 +107,7 @@ const login = (req, res) => {
                   email: userdata.email,
                   userType: userdata.userType,
                 };
-                var token = jwt.sign(tokenObj,privateKey);
+                var token = jwt.sign(tokenObj, privateKey);
                 res.send({
                   status: 200,
                   success: true,

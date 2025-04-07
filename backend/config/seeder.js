@@ -1,5 +1,6 @@
 const User = require("../server/user/userModel");
-admin = () => {
+
+const admin = () => {
   User.findOne({ email: "admin@gmail.com" })
     .then((userdata) => {
       if (!userdata) {
@@ -18,4 +19,4 @@ admin = () => {
       console.log(err);
     });
 };
-module.exports = admin;
+module.exports = { admin };

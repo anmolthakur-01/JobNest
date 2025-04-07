@@ -1,4 +1,9 @@
 const Employer = require("./employerModel");
+const User = require("../user/userModel");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const saltRounds = 10;
+const privateKey = "@jij7&uh##33$4U@9!";
 
 const add = (req, res) => {
   var validationerror = [];
@@ -10,7 +15,6 @@ const add = (req, res) => {
   if (!req.body.tagline) validationerror.push("tagline is required.");
   if (!req.body.website) validationerror.push("website is required.");
   if (!req.body.logo) validationerror.push("logo is required.");
-
   if (validationerror.length > 0) {
     res.send({
       status: 420,
@@ -18,43 +22,34 @@ const add = (req, res) => {
       message: "Data not found!",
       error: validationerror,
     });
-  } else {
-    Employer.findOne({ companyName: req.body.companyName }).then(
-      (employerData) => {
-        if (employerData) {
-          res.send({
-            status: 420,
-            success: false,
-            message: "Employer data already exist!",
-            data: employerData,
-          });
-        } else {
+  }
+  User.findOne({ email: req.body.email })
+    .then((employerData) => {
+      if (!employerData) {
+        let userObj = new User();
+        userObj.name = req.body.name;
+        userObj.email = req.body.email;
+        userObj.password = bcrypt.hashSync(req.body.password, saltRounds);
+        userObj.save().then((employerSave) => {
           let employerObj = new Employer();
           employerObj.name = req.body.name;
           employerObj.email = req.body.email;
-          employerObj.password = req.body.password;
+          employerObj.password = bcrypt.hashSync(req.body.password, saltRounds);
           employerObj.companyName = req.body.companyName;
           employerObj.description = req.body.description;
           employerObj.tagline = req.body.tagline;
           employerObj.website = req.body.website;
           employerObj.logo = req.body.logo;
+          employerObj.userId = req.body.userId;
           employerObj
             .save()
             .then((employerData) => {
-              if (!employerData) {
-                res.send({
-                  status: 404,
-                  success: false,
-                  message: "data not found",
-                  data: employerData,
-                });
-              } else {
-                res.send({
-                  status: true,
-                  message: "Data Loaded!",
-                  data: employerData,
-                });
-              }
+              res.send({
+                status: 200,
+                success: true,
+                message: "Employer register success",
+                data: employerData,
+              });
             })
             .catch((err) => {
               res.send({
@@ -63,9 +58,82 @@ const add = (req, res) => {
                 error: err.message,
               });
             });
-        }
+        });
+      } else {
+        res.send({
+          status: false,
+          message: "Record is already exist",
+        });
       }
-    );
+    })
+    .catch((err) => {
+      res.send({
+        status: false,
+        message: "Internal server error!",
+        error: err.message,
+      });
+    });
+};
+
+const login = (req, res) => {
+  var validationerror = [];
+  if (!req.body.email) validationerror.push("email is required");
+  if (!req.body.password) validationerror.push("password is required");
+  if (validationerror.length > 0) {
+    res.send({
+      status: 404,
+      success: false,
+      message: "validationerror error occur",
+      error: validationerror,
+    });
+  } else {
+    User.findOne({ email: req.body.email })
+      .then((employerdata) => {
+        if (!employerdata) {
+          res.send({
+            status: 420,
+            success: false,
+            message: "invalid email",
+          });
+        } else {
+          bcrypt.compare(
+            req.body.password,
+            employerdata.password,
+            (err, result) => {
+              if (!result) {
+                res.send({
+                  status: 420,
+                  success: false,
+                  message: "invalid password",
+                });
+              } else {
+                var tokenObj = {
+                  _id: employerdata._id,
+                  name: employerdata.name,
+                  email: employerdata.email,
+                  userType: employerdata.userType,
+                };
+                var token = jwt.sign(tokenObj, privateKey);
+                res.send({
+                  status: 200,
+                  success: true,
+                  message: "Login Successfully !!",
+                  token: token,
+                  data: employerdata,
+                });
+              }
+            }
+          );
+        }
+      })
+      .catch((err) => {
+        res.send({
+          status: 500,
+          success: false,
+          message: "Internal server error",
+          error: err.message,
+        });
+      });
   }
 };
 
@@ -150,14 +218,30 @@ const updateData = (req, res) => {
             data: employerData,
           });
         } else {
-          if (req.body.name) { employerData.name = req.body.name; }
-          if (req.body.email) { employerData.email = req.body.email; }
-          if(req.body.password) { employerData.password = req.body.password;}
-          if(req.body.companyName) { employerData.companyName = req.body.companyName;}
-          if(req.body.description) { employerData.description = req.body.description;}
-          if(req.body.tagline) { employerData.tagline = req.body.tagline;}
-          if(req.body.website) { employerData.website = req.body.website;}
-          if(req.body.logo) { employerData.logo = req.body.logo;}
+          if (req.body.name) {
+            employerData.name = req.body.name;
+          }
+          if (req.body.email) {
+            employerData.email = req.body.email;
+          }
+          if (req.body.password) {
+            employerData.password = req.body.password;
+          }
+          if (req.body.companyName) {
+            employerData.companyName = req.body.companyName;
+          }
+          if (req.body.description) {
+            employerData.description = req.body.description;
+          }
+          if (req.body.tagline) {
+            employerData.tagline = req.body.tagline;
+          }
+          if (req.body.website) {
+            employerData.website = req.body.website;
+          }
+          if (req.body.logo) {
+            employerData.logo = req.body.logo;
+          }
           employerData
             .save()
             .then((data) => {
@@ -222,6 +306,7 @@ const deleteData = (req, res) => {
 
 module.exports = {
   add,
+  login,
   getEmployerData,
   getSingleEmployerData,
   updateData,
