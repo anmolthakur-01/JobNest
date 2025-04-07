@@ -1,5 +1,5 @@
 const Seeker = require("./seekerModel");
-const User = require("../user/userModel")
+const User = require("../user/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const saltRounds = 10;
@@ -19,40 +19,35 @@ const add = (req, res) => {
       message: "Data not found!",
       error: validationerror,
     });
-  } else {
-    Seeker.findOne({ email: req.body.email })
-    .then((seekerData) => {
-      if (seekerData) {
-        res.send({
-          status: 420,
-          success: false,
-          message: "Registered data already exist!",
-          data: seekerData,
-        });
-      } else {
+  } 
+  User.findOne({ email: req.body.email })
+  .then(seekerData => {
+      if (!seekerData) {
+        let userObj = new User()
+        userObj.name = req.body.name
+        userObj.email = req.body.email
+        userObj.password = bcrypt.hashSync(req.body.password,saltRounds)
+        userObj.save()
+
+       .then(seekerSave=>{
         let seekerObj = new Seeker();
         seekerObj.name = req.body.name;
         seekerObj.email = req.body.email;
         seekerObj.password = bcrypt.hashSync(req.body.password, saltRounds);
         seekerObj.phone = req.body.phone;
         seekerObj.resume = req.body.resume;
-        seekerObj
-          .save()
-          .then((seekerData) => {
-            if (!seekerData) {
-              res.send({
-                status: 404,
-                success: false,
-                message: "data not found",
-                data: seekerData,
-              });
-            } else {
-              res.send({
-                status: true,
-                message: "Data Loaded!",
-                data: seekerData,
-              });
-            }
+        seekerObj.userId = req.body.userId;
+
+        seekerObj.save()
+          .then(seekerData => {
+            res.send({
+              status: 200,
+              success: true,
+              message: "Seeker register success",
+              data: seekerData
+          })
+        
+           
           })
           .catch((err) => {
             res.send({
@@ -61,9 +56,24 @@ const add = (req, res) => {
               error: err.message,
             });
           });
-      }
+        })
+
+        }
+        else{
+          res.send({
+            status: false,
+            message: "Record is already exist",
+        
+          });
+        }
+  })
+  .catch((err) => {
+    res.send({
+      status: false,
+      message: "Internal server error!",
+      error: err.message,
     });
-  }
+  });
 };
 
 const login = (req, res) => {
@@ -80,18 +90,18 @@ const login = (req, res) => {
   } else {
     User.findOne({ email: req.body.email })
       .then((userdata) => {
-        // if (!userdata) {
-        //   res.send({
-        //     status: 420,
-        //     success: false,
-        //     message: "invalid email",
-        //   });
-        // } else {
+        if (!userdata) {
+          res.send({
+            status: 420,
+            success: false,
+            message: "invalid email",
+          });
+        } else {
           bcrypt.compare(
             req.body.password,
             userdata.password,
-            function (err, data) {
-              if (!data) {
+            (err, result) =>{
+              if (!result) {
                 res.send({
                   status: 420,
                   success: false,
@@ -104,7 +114,7 @@ const login = (req, res) => {
                   email: userdata.email,
                   userType: userdata.userType,
                 };
-                var token = jwt.sign(tokenObj, privatekey);
+                var token = jwt.sign(tokenObj,privateKey);
                 res.send({
                   status: 200,
                   success: true,
@@ -115,7 +125,7 @@ const login = (req, res) => {
               }
             }
           );
-        // }
+        }
       })
       .catch((err) => {
         res.send({

@@ -1,6 +1,6 @@
-const Register = require("./registerModel");
+const Employer = require("./employerModel");
 
-const register = (req, res) => {
+const add = (req, res) => {
   var validationerror = [];
   if (!req.body.name) validationerror.push("name is required.");
   if (!req.body.email) validationerror.push("email is required.");
@@ -19,40 +19,40 @@ const register = (req, res) => {
       error: validationerror,
     });
   } else {
-    Register.findOne({ companyName: req.body.companyName }).then(
-      (registerData) => {
-        if (registerData) {
+    Employer.findOne({ companyName: req.body.companyName }).then(
+      (employerData) => {
+        if (employerData) {
           res.send({
             status: 420,
             success: false,
-            message: "Registered data already exist!",
-            data: registerData,
+            message: "Employer data already exist!",
+            data: employerData,
           });
         } else {
-          let registerObj = new Register();
-          registerObj.name = req.body.name;
-          registerObj.email = req.body.email;
-          registerObj.password = req.body.password;
-          registerObj.companyName = req.body.companyName;
-          registerObj.description = req.body.description;
-          registerObj.tagline = req.body.tagline;
-          registerObj.website = req.body.website;
-          registerObj.logo = req.body.logo;
-          registerObj
+          let employerObj = new Employer();
+          employerObj.name = req.body.name;
+          employerObj.email = req.body.email;
+          employerObj.password = req.body.password;
+          employerObj.companyName = req.body.companyName;
+          employerObj.description = req.body.description;
+          employerObj.tagline = req.body.tagline;
+          employerObj.website = req.body.website;
+          employerObj.logo = req.body.logo;
+          employerObj
             .save()
-            .then((registerData) => {
-              if (!registerData) {
+            .then((employerData) => {
+              if (!employerData) {
                 res.send({
                   status: 404,
                   success: false,
                   message: "data not found",
-                  data: registerData,
+                  data: employerData,
                 });
               } else {
                 res.send({
                   status: true,
                   message: "Data Loaded!",
-                  data: registerData,
+                  data: employerData,
                 });
               }
             })
@@ -69,8 +69,8 @@ const register = (req, res) => {
   }
 };
 
-const getRegisterData = (req, res) => {
-  Register.find()
+const getEmployerData = (req, res) => {
+  Employer.find()
     .then((data) => {
       if (!data) {
         res.send({
@@ -98,7 +98,7 @@ const getRegisterData = (req, res) => {
     });
 };
 
-const getSingleRegisterData = (req, res) => {
+const getSingleEmployerData = (req, res) => {
   var validationerror = [];
   if (!req.body._id) validationerror.push("_id is required.");
   if (validationerror.length > 0) {
@@ -109,7 +109,7 @@ const getSingleRegisterData = (req, res) => {
       error: validationerror,
     });
   } else {
-    Register.findOne({ _id: req.body._id })
+    Employer.findOne({ _id: req.body._id })
       .then((data) => {
         res.send({
           status: 200,
@@ -140,25 +140,25 @@ const updateData = (req, res) => {
       error: validationerror,
     });
   } else {
-    Register.findOne({ _id: req.body._id })
-      .then((registerData) => {
-        if (!registerData) {
+    Employer.findOne({ _id: req.body._id })
+      .then((employerData) => {
+        if (!employerData) {
           res.send({
             status: 420,
             success: false,
             message: "Data not found!",
-            data: registerData,
+            data: employerData,
           });
         } else {
-          if (req.body.name) { registerData.name = req.body.name; }
-          if (req.body.email) { registerData.email = req.body.email; }
-          if(req.body.password) { registerData.password = req.body.password;}
-          if(req.body.companyName) { registerData.companyName = req.body.companyName;}
-          if(req.body.description) { registerData.description = req.body.description;}
-          if(req.body.tagline) { registerData.tagline = req.body.tagline;}
-          if(req.body.website) { registerData.website = req.body.website;}
-          if(req.body.logo) { registerData.logo = req.body.logo;}
-          registerData
+          if (req.body.name) { employerData.name = req.body.name; }
+          if (req.body.email) { employerData.email = req.body.email; }
+          if(req.body.password) { employerData.password = req.body.password;}
+          if(req.body.companyName) { employerData.companyName = req.body.companyName;}
+          if(req.body.description) { employerData.description = req.body.description;}
+          if(req.body.tagline) { employerData.tagline = req.body.tagline;}
+          if(req.body.website) { employerData.website = req.body.website;}
+          if(req.body.logo) { employerData.logo = req.body.logo;}
+          employerData
             .save()
             .then((data) => {
               res.send({
@@ -200,13 +200,13 @@ const deleteData = (req, res) => {
       error: validationerror,
     });
   } else {
-    Register.deleteOne({ _id: req.body._id })
-      .then((registerData) => {
+    Employer.deleteOne({ _id: req.body._id })
+      .then((employerData) => {
         res.send({
           status: 200,
           success: true,
           message: "Deleted successfully",
-          data: registerData,
+          data: employerData,
         });
       })
       .catch((err) => {
@@ -221,9 +221,9 @@ const deleteData = (req, res) => {
 };
 
 module.exports = {
-  register,
-  getRegisterData,
-  getSingleRegisterData,
+  add,
+  getEmployerData,
+  getSingleEmployerData,
   updateData,
   deleteData,
 };

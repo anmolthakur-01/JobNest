@@ -7,6 +7,9 @@ const db = require("./config/db");
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(express.json());
 
+const seeder = require("./config/seeder");
+seeder.admin();
+
 app.use("/api", adminroutes);
 
 app.get("/", function (req, res) {
@@ -15,6 +18,5 @@ app.get("/", function (req, res) {
 
 app.listen(3000, (err) => {
   if (err) throw console.log("Server error occur!");
-  
   else console.log("Server running at port no. " + 3000);
-})
+});

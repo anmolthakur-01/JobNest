@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const registerSchema = mongoose.Schema({
+const employerSchema = mongoose.Schema({
   name: { type: String, default: null },
   email: { type: String, default: null },
   password: { type: String, default: null },
@@ -13,4 +13,4 @@ const registerSchema = mongoose.Schema({
   status: { type: Boolean, default: true },
 });
 
-module.exports = mongoose.model("register", registerSchema);
+module.exports = mongoose.model("employer", employerSchema);

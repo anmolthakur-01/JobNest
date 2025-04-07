@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const categoryController = require("../server/jobCategory/categoryController");
 const postController = require("../server/jobPost/jobPostController");
-const registerController = require("../server/register/registerController");
+const employerController = require("../server/employer/employerController");
 const seekerController = require("../server/jobSeeker/seekerController");
 const educationController = require("../server/education/educationController");
 const experienceController = require("../server/experience/experienceController");
@@ -20,12 +20,12 @@ router.use("/post/getsingle", postController.getSinglePost);
 router.use("/post/update", postController.updatePost);
 router.use("/post/delete", postController.deletePost);
 
-// Register Routes
-router.post("/register/add", registerController.register);
-router.post("/register/getall", registerController.getRegisterData);
-router.post("/register/getsingle", registerController.getSingleRegisterData);
-router.post("/register/update", registerController.updateData);
-router.post("/register/delete", registerController.deleteData);
+// Employer Routes
+router.post("/employer/add", employerController.add);
+router.post("/employer/getall", employerController.getEmployerData);
+router.post("/employer/getsingle", employerController.getSingleEmployerData);
+router.post("/employer/update", employerController.updateData);
+router.post("/employer/delete", employerController.deleteData);
 
 // Job Seeker Routes
 router.post("/jobseeker/add", seekerController.add);
@@ -41,7 +41,6 @@ router.post("/education/getall", educationController.getAllEducation);
 router.post("/education/getsingle", educationController.getSingleEducation);
 router.post("/education/update", educationController.updateEducation);
 router.post("/education/delete", educationController.deleteEducation);
-
 
 // Job Experience Routes
 router.post("/experience/add", experienceController.addExperience);
