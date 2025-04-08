@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const employerSchema = mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', default: null },
   name: { type: String, default: null },
   email: { type: String, default: null },
   password: { type: String, default: null },

@@ -7,7 +7,7 @@ const seekerSchema = mongoose.Schema({
   password: { type: String, default: null },
   phone: { type: Number, default: null },
   resume: { type: String, default: null },
-  createdAt: { type: Date, default: Date.now() },
+  createdAt: { type: Date, default: Date.now },
   status: { type: Boolean, default: true },
 });
 

@@ -29,6 +29,7 @@ const add = (req, res) => {
         let userObj = new User();
         userObj.name = req.body.name;
         userObj.email = req.body.email;
+        userObj.userType= 3
         userObj.password = bcrypt.hashSync(req.body.password, saltRounds);
         userObj.save().then((employerSave) => {
           let employerObj = new Employer();
