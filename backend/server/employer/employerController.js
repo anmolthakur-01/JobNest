@@ -29,9 +29,10 @@ const add = (req, res) => {
         let userObj = new User();
         userObj.name = req.body.name;
         userObj.email = req.body.email;
-        userObj.userType= 3
+        userObj.userType = 3;
         userObj.password = bcrypt.hashSync(req.body.password, saltRounds);
-        userObj.save().then((employerSave) => {
+        userObj.save()
+        .then((employerSave) => {
           let employerObj = new Employer();
           employerObj.name = req.body.name;
           employerObj.email = req.body.email;
@@ -40,7 +41,7 @@ const add = (req, res) => {
           employerObj.description = req.body.description;
           employerObj.tagline = req.body.tagline;
           employerObj.website = req.body.website;
-          employerObj.logo = req.body.logo;
+          employerObj.logo = "employer-logo-images/" + req.body.logo;
           employerObj.userId = req.body.userId;
           employerObj
             .save()
@@ -305,6 +306,51 @@ const deleteData = (req, res) => {
   }
 };
 
+const changeStatus = (req, res) => {
+  var validationerror = [];
+  if (!req.body._id) validationerror.push("_id is required.");
+  if (!req.body.status) validationerror.push("status is required.");
+  if (validationerror.length > 0) {
+    res.send({
+      status: 420,
+      success: false,
+      message: "Validation error",
+      error: validationerror,
+    });
+  } else {
+    Employer.findOne({ _id: req.body._id }).then((employerData) => {
+      if (!employerData) {
+        res.send({
+          status: 404,
+          success: false,
+          message: "Data not found",
+          data: employerData,
+        });
+      } else {
+        employerData.status = req.body.status;
+        employerData
+          .save()
+          .then((data) => {
+            res.send({
+              status: 200,
+              success: true,
+              message: "Status updated successfully",
+              data: data,
+            });
+          })
+          .catch((err) => {
+            res.send({
+              status: 500,
+              success: false,
+              message: "Internal server error!",
+              error: err.message,
+            });
+          });
+      }
+    });
+  }
+};
+
 module.exports = {
   add,
   login,
@@ -312,4 +358,5 @@ module.exports = {
   getSingleEmployerData,
   updateData,
   deleteData,
+  changeStatus,
 };

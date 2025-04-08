@@ -1,17 +1,19 @@
 const express = require("express");
 const app = express();
-
-const adminroutes = require("./routes/apiRoutes");
-app.use("/api", adminroutes);
-
 const db = require("./config/db");
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(express.json());
 
+const cors = require("cors");
+app.use(cors());
+
+const adminroutes = require("./routes/apiRoutes");
+app.use("/api", adminroutes);
+
 const seeder = require("./config/seeder");
 seeder.admin();
 
-app.use("/", (req,res)=>{
+app.use("/", (req, res) => {
   res.send("Welcome to JobNest API");
 });
 

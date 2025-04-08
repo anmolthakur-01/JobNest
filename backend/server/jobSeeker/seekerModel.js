@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const seekerSchema = mongoose.Schema({
+const seekerSchema =new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', default: null },
   name: { type: String, default: null },
   email: { type: String, default: null },
@@ -11,4 +11,4 @@ const seekerSchema = mongoose.Schema({
   status: { type: Boolean, default: true },
 });
 
-module.exports = mongoose.model("jobSeeker", seekerSchema);
+module.exports =new mongoose.model("jobSeeker", seekerSchema);

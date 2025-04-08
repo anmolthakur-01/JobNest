@@ -26,10 +26,9 @@ const add = (req, res) => {
         let userObj = new User();
         userObj.name = req.body.name;
         userObj.email = req.body.email;
-        userObj.userType= 2
+        userObj.userType = 2;
         userObj.password = bcrypt.hashSync(req.body.password, saltRounds);
-        userObj.save()
-        .then((seekerSave) => {
+        userObj.save().then((seekerSave) => {
           let seekerObj = new Seeker();
           seekerObj.name = req.body.name;
           seekerObj.email = req.body.email;
@@ -37,7 +36,8 @@ const add = (req, res) => {
           seekerObj.phone = req.body.phone;
           seekerObj.resume = req.body.resume;
           seekerObj.userId = req.body.userId;
-          seekerObj.save()
+          seekerObj
+            .save()
             .then((seekerData) => {
               res.send({
                 status: 200,

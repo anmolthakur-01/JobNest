@@ -9,9 +9,9 @@ const employerSchema = mongoose.Schema({
   description: { type: String, default: null },
   tagline: { type: String, default: null },
   website: { type: String, default: null },
-  logo: { type: String, default: null },
+  logo: { type: String, default: "no_image.jpg" },
   createdAt: { type: Date, default: Date.now },
-  status: { type: Boolean, default: true },
+  status: { type: String, default: "active" },
 });
 
 module.exports = mongoose.model("employer", employerSchema);

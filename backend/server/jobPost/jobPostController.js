@@ -246,50 +246,50 @@ const deletePost = (req, res) => {
   }
 };
 
-// const changeStatus = (req, res) => {
-//   var validationerror = [];
-//   if (!req.body._id) validationerror.push("id is required");
-//   if (!req.body.status) validationerror.push("status is required");
-//   if (validationerror.length > 0) {
-//     res.send({
-//       success: false,
-//       status: 420,
-//       message: "Validation error",
-//       error: validationerror,
-//     });
-//   } else {
-//     Post.findOne({ _id: req.body._id }).then((postData) => {
-//       if (!postData) {
-//         res.send({
-//           success: false,
-//           status: 404,
-//           message: "Data not found",
-//           data: postData,
-//         });
-//       } else {
-//         postData.status = req.body.status;
-//         postData
-//           .save()
-//           .then((postData) => {
-//             res.send({
-//               success: true,
-//               status: 200,
-//               message: "updated status",
-//               data: postData,
-//             });
-//           })
-//           .catch((err) => {
-//             res.send({
-//               success: false,
-//               status: 500,
-//               message: "Internal server error",
-//               error: err.message,
-//             });
-//           });
-//       }
-//     });
-//   }
-// };
+const changeStatus = (req, res) => {
+  var validationerror = [];
+  if (!req.body._id) validationerror.push("id is required");
+  if (!req.body.status) validationerror.push("status is required");
+  if (validationerror.length > 0) {
+    res.send({
+      success: false,
+      status: 420,
+      message: "Validation error",
+      error: validationerror,
+    });
+  } else {
+    Post.findOne({ _id: req.body._id }).then((postData) => {
+      if (!postData) {
+        res.send({
+          success: false,
+          status: 404,
+          message: "Data not found",
+          data: postData,
+        });
+      } else {
+        postData.status = req.body.status;
+        postData
+          .save()
+          .then((postData) => {
+            res.send({
+              success: true,
+              status: 200,
+              message: "updated status",
+              data: postData,
+            });
+          })
+          .catch((err) => {
+            res.send({
+              success: false,
+              status: 500,
+              message: "Internal server error",
+              error: err.message,
+            });
+          });
+      }
+    });
+  }
+};
 
 module.exports = {
   addJobPost,
@@ -297,5 +297,5 @@ module.exports = {
   getSinglePost,
   updatePost,
   deletePost,
-  // changeStatus,
+  changeStatus,
 };
