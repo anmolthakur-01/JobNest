@@ -19,6 +19,7 @@ router.use("/post/getall", postController.getAllPost);
 router.use("/post/getsingle", postController.getSinglePost);
 router.use("/post/update", postController.updatePost);
 router.use("/post/delete", postController.deletePost);
+// router.use("/post/changestatus", postController.changeStatus);
 
 // Employer Routes
 router.post("/employer/add", employerController.add);
