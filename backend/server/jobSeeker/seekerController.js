@@ -28,7 +28,8 @@ const add = (req, res) => {
         userObj.email = req.body.email;
         userObj.userType = 2;
         userObj.password = bcrypt.hashSync(req.body.password, saltRounds);
-        userObj.save().then((seekerSave) => {
+        userObj.save()
+        .then((seekerSave) => {
           let seekerObj = new Seeker();
           seekerObj.name = req.body.name;
           seekerObj.email = req.body.email;
