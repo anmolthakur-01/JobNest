@@ -83,24 +83,24 @@ const Signup = () => {
               <Input
                 type="radio"
                 name="role"
-                value="student"
-                checked={input.role === "student"}
+                value="jobseeker"
+                checked={input.role === "jobseeker"}
                 onChange={changeEventHandler}
                 className="cursor-pointer"
               />
               <div className="flex items-center space-x-2 cursor-pointer">
-                <Label htmlFor="option-one">Student</Label>
+                <Label htmlFor="option-one">JobSeeker</Label>
               </div>
               <div className="flex items-center space-x-2 cursor-pointer">
                 <Input
                   type="radio"
                   name="role"
-                  value="recruiter"
-                  checked={input.role === "recruiter"}
+                  value="employer"
+                  checked={input.role === "employer"}
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
-                <Label htmlFor="option-two">Recruiter</Label>
+                <Label htmlFor="option-two">Employer</Label>
               </div>
             </RadioGroup>
             <div className="flex items-center gap-2">
