@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 
 const Navbar = () => {
-  const user = false;
+  const user = true;
   return (
     <div className="bg-white">
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
