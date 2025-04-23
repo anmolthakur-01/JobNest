@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./shared/Navbar";
 import Hero from "./Hero";
 import CategoryCarousel from "./CategoryCarousel";
+import Jobs from "./Jobs";
 
 const Home = () => {
   return (
@@ -9,6 +10,7 @@ const Home = () => {
       <Navbar />
       <Hero />
       <CategoryCarousel />
+      <Jobs/>
     </>
   );
 };
