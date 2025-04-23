@@ -1,16 +1,16 @@
-import React from 'react'
-import Navbar from './shared/Navbar'
-import Footer from './shared/Footer'
-import Hero from './Hero'
+import React from "react";
+import Navbar from "./shared/Navbar";
+import Hero from "./Hero";
+import CategoryCarousel from "./CategoryCarousel";
 
 const Home = () => {
   return (
     <>
-    <Navbar/>
-    <Hero/>
-    {/* <Footer /> */}
+      <Navbar />
+      <Hero />
+      <CategoryCarousel />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
