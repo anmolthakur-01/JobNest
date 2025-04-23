@@ -2,7 +2,8 @@ import React from "react";
 import Navbar from "./shared/Navbar";
 import Hero from "./Hero";
 import CategoryCarousel from "./CategoryCarousel";
-import Jobs from "./Jobs";
+import LatestJobs from "./LatestJobs";
+import LatestJobsCards from "./LatestJobsCards";
 
 const Home = () => {
   return (
@@ -10,7 +11,8 @@ const Home = () => {
       <Navbar />
       <Hero />
       <CategoryCarousel />
-      <Jobs/>
+      <LatestJobs />
+      <LatestJobsCards/>
     </>
   );
 };
