@@ -5,9 +5,8 @@ import { Button } from "../ui/button";
 import { LogOut, User2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-
 const Navbar = () => {
-  const user = false;
+  const user = true;
   return (
     <div className="bg-white">
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
@@ -18,9 +17,15 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-9">
           <ul className="flex items-center space-x-9">
-            <li className="text-gray-700"><Link to="/">Home</Link></li>
-            <li className="text-gray-700"><Link to="/jobs">Jobs</Link></li>
-            <li className="text-gray-700"><Link to="/browse">Browse</Link></li>
+            <li className="text-gray-700">
+              <Link to="/">Home</Link>
+            </li>
+            <li className="text-gray-700">
+              <Link to="/jobs">Jobs</Link>
+            </li>
+            <li className="text-gray-700">
+              <Link to="/browse">Browse</Link>
+            </li>
             {!user ? (
               <div className="flex items-center gap-2">
                 <Link to="/login">
@@ -70,7 +75,7 @@ const Navbar = () => {
                       <div className="flex w-fit items-center gap-2">
                         <User2 />
                         <Button className="cursor-pointer" variant="link">
-                          View Profile
+                          <Link to="/profile">View Profile</Link>
                         </Button>
                       </div>
                       <div className="flex w-fit items-center gap-2">
