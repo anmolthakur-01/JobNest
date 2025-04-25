@@ -10,11 +10,13 @@ const add = (req, res) => {
   if (!req.body.name) validationerror.push("name is required.");
   if (!req.body.email) validationerror.push("email is required.");
   if (!req.body.password) validationerror.push("password is required.");
+  if (!req.body.phoneNumber) validationerror.push("phoneNumber is required.");
   if (!req.body.companyName) validationerror.push("companyName is required.");
   if (!req.body.description) validationerror.push("description is required.");
   if (!req.body.tagline) validationerror.push("tagline is required.");
   if (!req.body.website) validationerror.push("website is required.");
-  if (!req.body.logo) validationerror.push("logo is required.");
+  //  if (!req.files) validationerror.push("logo is required.");
+  // if (!req.body.profileImage) validationerror.push("profileImage is required.");
   if (validationerror.length > 0) {
     res.send({
       status: 420,
@@ -31,18 +33,22 @@ const add = (req, res) => {
         userObj.email = req.body.email;
         userObj.userType = 3;
         userObj.password = bcrypt.hashSync(req.body.password, saltRounds);
-        userObj.save()
-        .then((employerSave) => {
+        userObj.save().then((employerSave) => {
           let employerObj = new Employer();
           employerObj.name = req.body.name;
           employerObj.email = req.body.email;
           employerObj.password = bcrypt.hashSync(req.body.password, saltRounds);
+          employerObj.phoneNumber = req.body.phoneNumber;
           employerObj.companyName = req.body.companyName;
           employerObj.description = req.body.description;
           employerObj.tagline = req.body.tagline;
           employerObj.website = req.body.website;
-          employerObj.logo = "employer-logo-images/" + req.body.logo;
+          employerObj.logo = req.files; // multiple file ke liye req.files OR single ke liye req.file.filename
+          employerObj.profileImage = req.files;
           employerObj.userId = req.body.userId;
+  
+          console.log(employerObj.logo);
+          console.log(employerObj.profileImage);
           employerObj
             .save()
             .then((employerData) => {
@@ -229,6 +235,9 @@ const updateData = (req, res) => {
           if (req.body.password) {
             employerData.password = req.body.password;
           }
+          if (req.body.phoneNumber) {
+            employerData.phoneNumber = req.body.phoneNumber;
+          }
           if (req.body.companyName) {
             employerData.companyName = req.body.companyName;
           }
@@ -244,6 +253,9 @@ const updateData = (req, res) => {
           if (req.body.logo) {
             employerData.logo = req.body.logo;
           }
+          // if (req.body.profileImage) {
+          //   employerData.profileImage = req.body.profileImage;
+          // }
           employerData
             .save()
             .then((data) => {

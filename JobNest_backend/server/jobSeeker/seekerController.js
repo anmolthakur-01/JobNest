@@ -12,6 +12,8 @@ const add = (req, res) => {
   if (!req.body.password) validationerror.push("password is required.");
   if (!req.body.phone) validationerror.push("phone is required.");
   if (!req.body.resume) validationerror.push("resume is required.");
+  if (!req.body.bio) validationerror.push("bio is required.");
+  if (!req.body.skills) validationerror.push("skills are required.");
   if (validationerror.length > 0) {
     res.send({
       status: 420,
@@ -28,14 +30,15 @@ const add = (req, res) => {
         userObj.email = req.body.email;
         userObj.userType = 2;
         userObj.password = bcrypt.hashSync(req.body.password, saltRounds);
-        userObj.save()
-        .then((seekerSave) => {
+        userObj.save().then((seekerSave) => {
           let seekerObj = new Seeker();
           seekerObj.name = req.body.name;
           seekerObj.email = req.body.email;
           seekerObj.password = bcrypt.hashSync(req.body.password, saltRounds);
           seekerObj.phone = req.body.phone;
           seekerObj.resume = req.body.resume;
+          seekerObj.bio = req.body.bio;
+          seekerObj.skills = req.body.skills;
           seekerObj.userId = req.body.userId;
           seekerObj
             .save()
@@ -236,6 +239,12 @@ const update = (req, res) => {
           }
           if (req.body.resume) {
             seekerData.resume = req.body.resume;
+          }
+          if (req.body.bio) {
+            seekerData.bio = req.body.bio;
+          }
+          if (req.body.skills) {
+            seekerData.skills = req.body.skills;
           }
           seekerData
             .save()

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [input, setInput] = useState({
-    fullname: "",
+    name: "",
     email: "",
     phoneNumber: "",
     password: "",
@@ -39,11 +39,11 @@ const Signup = () => {
         > 
           <h1 className="font-bold text-xl mb-5">Sign Up</h1>
           <div className="my-2">
-            <Label className="p-2">Full Name</Label>
+            <Label className="p-2">Name</Label>
             <Input
               type="text"
-              value={input.fullname}
-              name="fullname"
+              value={input.name}
+              name="name"
               onChange={changeEventHandler}
               placeholder="Enter your full name"
             />
