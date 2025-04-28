@@ -7,6 +7,7 @@ const educationController = require("../server/education/educationController");
 const experienceController = require("../server/experience/experienceController");
 const middle = require("../middleware/multer");
 const empl = middle.employerUpload;
+const seeker = middle.jobseekerUpload;
 
 // Job Category Routes
 router.post("/category/add", categoryController.addJobCategory);
@@ -24,7 +25,14 @@ router.use("/post/delete", postController.deletePost);
 router.use("/post/changestatus", postController.changeStatus);
 
 // Employer Routes
-router.post("/employer/add", empl.fields([{name:'logo',maxCount:1},{name:'profileImage',maxCount:1}]), employerController.add);
+router.post(
+  "/employer/add",
+  empl.fields([
+    { name: "logo", maxCount: 1 },
+    { name: "profileImage", maxCount: 1 },
+  ]),
+  employerController.add
+);
 router.post("/employer/login", employerController.login);
 router.post("/employer/getall", employerController.getEmployerData);
 router.post("/employer/getsingle", employerController.getSingleEmployerData);
@@ -33,7 +41,14 @@ router.post("/employer/delete", employerController.deleteData);
 router.post("/employer/changestatus", employerController.changeStatus);
 
 // Job Seeker Routes
-router.post("/jobseeker/add", seekerController.add);
+router.post(
+  "/jobseeker/add",
+  seeker.fields([
+    { name: "profileImage", maxCount: 1 },
+    { name: "resume", maxCount: 1 },
+  ]),
+  seekerController.add
+);
 router.post("/jobseeker/login", seekerController.login);
 router.post("/jobseeker/getall", seekerController.getAll);
 router.post("/jobseeker/getsingle", seekerController.getSingle);

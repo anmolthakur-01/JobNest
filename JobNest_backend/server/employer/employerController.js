@@ -46,9 +46,6 @@ const add = (req, res) => {
           employerObj.logo = req.files; // multiple file ke liye req.files OR single ke liye req.file.filename
           employerObj.profileImage = req.files;
           employerObj.userId = req.body.userId;
-  
-          console.log(employerObj.logo);
-          console.log(employerObj.profileImage);
           employerObj
             .save()
             .then((employerData) => {

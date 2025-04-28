@@ -11,7 +11,6 @@ const add = (req, res) => {
   if (!req.body.email) validationerror.push("email is required.");
   if (!req.body.password) validationerror.push("password is required.");
   if (!req.body.phone) validationerror.push("phone is required.");
-  if (!req.body.resume) validationerror.push("resume is required.");
   if (!req.body.bio) validationerror.push("bio is required.");
   if (!req.body.skills) validationerror.push("skills are required.");
   if (validationerror.length > 0) {
@@ -36,13 +35,15 @@ const add = (req, res) => {
           seekerObj.email = req.body.email;
           seekerObj.password = bcrypt.hashSync(req.body.password, saltRounds);
           seekerObj.phone = req.body.phone;
-          seekerObj.resume = req.body.resume;
           seekerObj.bio = req.body.bio;
           seekerObj.skills = req.body.skills;
+          seekerObj.resume = req.files;
+          seekerObj.profileImage = req.files;
           seekerObj.userId = req.body.userId;
           seekerObj
             .save()
             .then((seekerData) => {
+              console.log(seekerObj.profileImage);
               res.send({
                 status: 200,
                 success: true,

@@ -12,7 +12,7 @@ const employerSchema = mongoose.Schema({
   website: { type: String, default: null },
   logo: { type: Array, default: ["no_image.jpg"] }, //multiple ke liye Array OR single ke liye string aur array dono chalega
   profileImage: { type: Array, default: "no_image.jpg" },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now() },
   status: { type: String, default: "active" },
 });
 

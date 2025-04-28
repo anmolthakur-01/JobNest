@@ -6,10 +6,11 @@ const seekerSchema = new mongoose.Schema({
   email: { type: String, default: null },
   password: { type: String, default: null },
   phone: { type: Number, default: null },
-  resume: { type: String, default: null },
   bio: { type: String, default: null },
   skills: { type: String, default: null },
-  createdAt: { type: Date, default: Date.now },
+  profileImage: { type: Array, default: "no_image.jpg" },
+  resume: { type: Array, default: "no_image.jpg" },
+  createdAt: { type: Date, default: Date.now() },
   status: { type: Boolean, default: true },
 });
 
