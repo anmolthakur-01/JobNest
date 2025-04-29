@@ -15,7 +15,7 @@ const Login = () => {
   });
 
   const changeEventHandler = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    setInput({ ...input, [e.target.name]: e.target.value });  // ...input used to create a shallow copy of the input state, e.target.name (name)attribute used as the key in the input object,e.target.value assigned to the corresponding key,  the [e.target.name]: e.target.value part updates or adds a new key-value pair to the input object.
   };
 
   const submitHandler = async (e) => {

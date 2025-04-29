@@ -77,6 +77,23 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
   //     console.log(input);
   //   };
 
+  const [input, setInput] = useState({
+      name: "name",
+      email: "email",
+      phoneNumber: "phoneNumber",
+      bio: "bio",
+      skills: "skills",
+      resume: "resume",
+      profileImage: "profileImage",
+    });
+  
+
+  const logInput = (e) => {
+    e.preventDefault();
+    console.log(input);
+    
+  };
+
   return (
     <div>
       <Dialog open={open}>
@@ -88,7 +105,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             <DialogTitle>Update Profile</DialogTitle>
           </DialogHeader>
           <form
-          //   onSubmit={submitHandler}
+            onSubmit={logInput}
           >
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
@@ -188,7 +205,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
                 </Button>
               ) : (
-                <Button type="submit" className="w-full my-4">
+                <Button  type="submit" className="w-full my-4">
                   Update
                 </Button>
               )}
