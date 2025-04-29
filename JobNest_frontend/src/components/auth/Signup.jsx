@@ -65,7 +65,7 @@ const Signup = () => {
               value={input.phoneNumber}
               name="phoneNumber"
               onChange={changeEventHandler}
-              placeholder="+91 12345 56789"
+              placeholder="12345 56789"
             />
           </div>
           <div className="my-2">

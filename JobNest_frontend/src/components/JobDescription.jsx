@@ -9,7 +9,7 @@ import { Button } from "./ui/button";
 // import { toast } from 'sonner';
 
 const JobDescription = () => {
-  const isApplied = false;
+  const isApplied = true;
 
   // const {singleJob} = useSelector(store => store.job);
   // const {user} = useSelector(store=>store.auth);
