@@ -6,21 +6,21 @@ const saltRounds = 10;
 const privateKey = "@#97$787@5#8#$";
 
 const add = (req, res) => {
-  var validationerror = [];
-  if (!req.body.name) validationerror.push("name is required.");
-  if (!req.body.email) validationerror.push("email is required.");
-  if (!req.body.password) validationerror.push("password is required.");
-  if (!req.body.phone) validationerror.push("phone is required.");
-  if (!req.body.bio) validationerror.push("bio is required.");
-  if (!req.body.skills) validationerror.push("skills are required.");
-  if (validationerror.length > 0) {
-    res.send({
-      status: 420,
-      success: false,
-      message: "Data not found!",
-      error: validationerror,
-    });
-  }
+  // var validationerror = [];
+  // if (!req.body.name) validationerror.push("name is required.");
+  // if (!req.body.email) validationerror.push("email is required.");
+  // if (!req.body.password) validationerror.push("password is required.");
+  // if (!req.body.phone) validationerror.push("phone is required.");
+  // if (!req.body.bio) validationerror.push("bio is required.");
+  // if (!req.body.skills) validationerror.push("skills are required.");
+  // if (validationerror.length > 0) {
+  //   res.send({
+  //     status: 420,
+  //     success: false,
+  //     message: "Data not found!",
+  //     error: validationerror,
+  //   });
+  // }
   User.findOne({ email: req.body.email })
     .then((seekerData) => {
       if (!seekerData) {
@@ -35,15 +35,15 @@ const add = (req, res) => {
           seekerObj.email = req.body.email;
           seekerObj.password = bcrypt.hashSync(req.body.password, saltRounds);
           seekerObj.phone = req.body.phone;
-          seekerObj.bio = req.body.bio;
-          seekerObj.skills = req.body.skills;
-          seekerObj.resume = req.files;
-          seekerObj.profileImage = req.files;
+          // seekerObj.bio = req.body.bio;
+          // seekerObj.skills = req.body.skills;
+          // seekerObj.resume = req.files;
+          seekerObj.profileImage = req.files?req.file.filename:"D:\Gallery\Anmol Picture\IMG_20250207_104340.jpg";
           seekerObj.userId = req.body.userId;
           seekerObj
             .save()
             .then((seekerData) => {
-              console.log(seekerObj.profileImage);
+              // console.log(seekerObj.profileImage);
               res.send({
                 status: 200,
                 success: true,

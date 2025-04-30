@@ -6,60 +6,61 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
-import { Avatar, AvatarImage } from "./ui/avatar";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-// import axios from "axios";
-// import {toast} from "./ui/sonner"
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+// import { Avatar, AvatarImage } from "./ui/avatar";
+// import { useDispatch, useSelector } from "react-redux";
 // import { USER_API_END_POINT } from "@/utils/constant";
 // import { setUser } from "@/redux/authSlice";
-// import { toast } from "sonner";
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(true);
   // const { user } = useSelector((store) => store.auth);
 
   // const dispatch = useDispatch();
 
-  //   const submitHandler = async (e) => {
-  //     e.preventDefault();
-  //     const formData = new FormData();
-  //     formData.append("fullname", input.fullname);
-  //     formData.append("email", input.email);
-  //     formData.append("phoneNumber", input.phoneNumber);
-  //     formData.append("bio", input.bio);
-  //     formData.append("skills", input.skills);
-  //     if (input.file) {
-  //       formData.append("file", input.file);
-  //     }
-  //     try {
-  //       setLoading(true);
-  //       const res = await axios.post(
-  //         `${USER_API_END_POINT}/profile/update`,
-  //         formData,
-  //         {
-  //           headers: {
-  //             "Content-Type": "multipart/form-data",
-  //           },
-  //           withCredentials: true,
-  //         }
-  //       );
-  //       if (res.data.success) {
-  //         dispatch(setUser(res.data.user));
-  //         toast.success(res.data.message);
+  // const submitHandler = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("fullname", input.fullname);
+  //   formData.append("email", input.email);
+  //   formData.append("phoneNumber", input.phoneNumber);
+  //   formData.append("bio", input.bio);
+  //   formData.append("skills", input.skills);
+  //   if (input.file) {
+  //     formData.append("file", input.file);
+  //   }
+  //   try {
+  //     setLoading(true);
+  //     const res = await axios.post(
+  //       `${USER_API_END_POINT}/profile/update`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //         withCredentials: true,
   //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //       toast.error(error.response.data.message);
-  //     } finally {
-  //       setLoading(false);
+  //     );
+  //     if (res.data.success) {
+  //       dispatch(setUser(res.data.user));
+  //       toast.success(res.data.message);
   //     }
-  //     setOpen(false);
-  //     console.log(input);
-  //   };
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error(error.response.data.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  //   setOpen(false);
+  //   console.log(input);
+  // };
 
   const [input, setInput] = useState({
     name: "",
@@ -70,18 +71,64 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     resume: "",
   });
 
-  //   const fileChangeHandler = (e) => {
-  //     const file = e.target.files?.[0];
-  //     setInput({ ...input, file });
-  //   };
+  // const fileChangeHandler = (e) => {
+  //   const file = e.target.files?.[0];
+  //   setInput({ ...input, file });
+  // };
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const logInput = (e) => {
+  let param = useParams();
+  const id = param.id;
+
+  useEffect(() => {
+    let data = {
+      _id: id,
+    };
+    axios
+      .post("http://localhost:3000/api/jobseeker/getsingle", data)
+      .then((res) => {
+        console.log(res.data);
+        setInput({
+          name: res.data.data.name,
+          email: res.data.data.email,
+          phoneNumber: res.data.data.phoneNumber,
+          bio: res.data.data.bio,
+          skills: res.data.data.skills,
+          // resume: res.data.data.resume,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const navigate = useNavigate();
+  const submitHandler = (e) => {
     e.preventDefault();
-    console.log(input);
+    // console.log(input);
+    let data = new FormData();
+    data.append("name", input.name);
+    data.append("email", input.email);
+    data.append("phoneNumber", input.phoneNumber);
+    data.append("bio", input.bio);
+    data.append("skills", input.skills);
+    axios
+      .post("http://localhost:3000/api/jobseeker/update", data)
+      .then((res) => {
+        // console.log(res.data);
+        if (res.data.success) {
+          toast.success(res.data.message);
+          navigate("/profile");
+        } else {
+          toast.error(res.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -94,7 +141,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
           <DialogHeader>
             <DialogTitle>Update Profile</DialogTitle>
           </DialogHeader>
-          <form onSubmit={logInput}>
+          <form onSubmit={submitHandler}>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
@@ -104,7 +151,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                   id="name"
                   name="name"
                   type="text"
-                  //   value={input.fullname}
+                  value={input.name}
                   onChange={changeEventHandler}
                   className="col-span-3"
                 />
@@ -117,7 +164,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                   id="email"
                   name="email"
                   type="email"
-                  //   value={input.email}
+                  value={input.email}
                   onChange={changeEventHandler}
                   className="col-span-3"
                 />
@@ -129,7 +176,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 <Input
                   id="number"
                   name="number"
-                  //   value={input.phoneNumber}
+                  value={input.phoneNumber}
                   onChange={changeEventHandler}
                   className="col-span-3"
                 />
@@ -141,7 +188,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 <Input
                   id="bio"
                   name="bio"
-                  //   value={input.bio}
+                  value={input.bio}
                   onChange={changeEventHandler}
                   className="col-span-3"
                 />
@@ -153,7 +200,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 <Input
                   id="skills"
                   name="skills"
-                  //   value={input.skills}
+                  value={input.skills}
                   onChange={changeEventHandler}
                   className="col-span-3"
                 />
@@ -173,16 +220,16 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
               </div>
             </div>
             <DialogFooter>
-              {loading ? (
+              {/* {loading ? (
                 <Button className="w-full my-4">
                   {" "}
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
                 </Button>
-              ) : (
-                <Button type="submit" className="w-full my-4">
-                  Update
-                </Button>
-              )}
+              ) : ( */}
+              <Button type="submit" className="w-full my-4">
+                Update
+              </Button>
+              {/* )} */}
             </DialogFooter>
           </form>
         </DialogContent>

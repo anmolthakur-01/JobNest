@@ -4,29 +4,42 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Signup = () => {
-  const [input, setInput] = useState({
-    name: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
-    role: "",
-    file: "",
-  });
+  const nav = useNavigate();
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [phone, setPhone] = useState();
+  const [password, setPassword] = useState();
+  // const [role, setRole] = useState();
 
-  const changeEventHandler = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
-  };
-
-  const changeFileHandler = (e) => {
-    setInput({ ...input, file: e.target.files?.[0] });
-  };
-
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
-    console.log(input);
+    let data = {
+      name: name,
+      email: email,
+      phone: phone,
+      password: password,
+      // role: role,
+    };
+    axios.post("http://localhost:3000/api/jobseeker/add", data)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.success) {
+          toast.success(response.data.message);
+          nav("/login");
+        } else {
+          toast.error(response.data.message);
+          nav("/login");
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error);
+        nav("/login");
+      });
   };
 
   return (
@@ -36,15 +49,15 @@ const Signup = () => {
         <form
           onSubmit={submitHandler}
           className="w-1/2 border border-gray-300 rounded-md p-4 my-10"
-        > 
+        >
           <h1 className="font-bold text-xl mb-5">Sign Up</h1>
           <div className="my-2">
             <Label className="p-2">Name</Label>
             <Input
               type="text"
-              value={input.name}
-              name="name"
-              onChange={changeEventHandler}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
               placeholder="Enter your full name"
             />
           </div>
@@ -52,9 +65,9 @@ const Signup = () => {
             <Label className="p-2">Email</Label>
             <Input
               type="text"
-              value={input.email}
-              name="email"
-              onChange={changeEventHandler}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               placeholder="Example@abc.com"
             />
           </div>
@@ -62,9 +75,9 @@ const Signup = () => {
             <Label className="p-2">Phone Number</Label>
             <Input
               type="text"
-              value={input.phoneNumber}
-              name="phoneNumber"
-              onChange={changeEventHandler}
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
               placeholder="12345 56789"
             />
           </div>
@@ -72,9 +85,9 @@ const Signup = () => {
             <Label className="p-2">Password</Label>
             <Input
               type="password"
-              value={input.password}
-              name="password"
-              onChange={changeEventHandler}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               placeholder="Enter password"
             />
           </div>
@@ -82,10 +95,12 @@ const Signup = () => {
             <RadioGroup className="flex items-center gap-4 my-5">
               <Input
                 type="radio"
-                name="role"
-                value="jobseeker"
-                checked={input.role === "jobseeker"}
-                onChange={changeEventHandler}
+                // checked={role === "jobseeker"}
+                // onChange={
+                //   (changeRole = (e) => {
+                //     setRole(e.target.value);
+                //   })
+                // }
                 className="cursor-pointer"
               />
               <div className="flex items-center space-x-2 cursor-pointer">
@@ -94,19 +109,17 @@ const Signup = () => {
               <div className="flex items-center space-x-2 cursor-pointer">
                 <Input
                   type="radio"
-                  name="role"
-                  value="employer"
-                  checked={input.role === "employer"}
-                  onChange={changeEventHandler}
+                  // checked={role === "employer"}
+                  // onChange={
+                  //   (changeEmployer = (e) => {
+                  //     setEmployer(e.target.value);
+                  //   })
+                  // }
                   className="cursor-pointer"
                 />
                 <Label htmlFor="option-two">Employer</Label>
               </div>
             </RadioGroup>
-            <div className="flex items-center gap-2">
-              <Label>Profile</Label>
-              <Input accept="image/*"  type="file" onChange={changeFileHandler} className="cursor-pointer" />
-            </div>
           </div>
           <Button type="submit" className="w-full my-4">
             Sign Up

@@ -5,8 +5,31 @@ import { Button } from "./ui/button";
 import { Contact, Mail, Pen } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Label } from "./ui/label";
-import AppliedJobTable from './AppliedJobTable'
-import UpdateProfileDialog from './UpdateProfileDialog'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis
+} from "./ui/breadcrumb"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import AppliedJobTable from "./AppliedJobTable";
+import UpdateProfileDialog from "./UpdateProfileDialog";
 // import { useSelector } from 'react-redux'
 // import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
 
@@ -33,22 +56,23 @@ const Profile = () => {
             <div>
               <h1 className="font-medium text-xl">
                 {/* {user?.fullname} */}
-                Sahil Patel
+                {/* Sahil Patel */}
               </h1>
               <p>
                 {/* {user?.profile?.bio} */}
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corrupti, commodi earum ipsam cupiditate ipsum.
+                {/* Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Corrupti, commodi earum ipsam cupiditate ipsum. */}
               </p>
             </div>
           </div>
           <Button
-            onClick={() => setOpen(true)}
+            // onClick={() => setOpen(true)}
             className="text-right"
             variant="outline"
           >
             <Pen />
           </Button>
+        
         </div>
         <div className="my-5">
           <div className="flex items-center gap-3 my-2">
