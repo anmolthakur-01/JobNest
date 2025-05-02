@@ -6,42 +6,66 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { SEEKER_API_URL } from "../../utils/constants";
+import { toast } from "sonner";
 
 const Signup = () => {
-  const nav = useNavigate();
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [phone, setPhone] = useState();
-  const [password, setPassword] = useState();
-  // const [role, setRole] = useState();
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
+    // console.log(name, email, phone, password, role);
     let data = {
       name: name,
       email: email,
       phone: phone,
       password: password,
-      // role: role,
+      role: role,
     };
-    axios.post("http://localhost:3000/api/jobseeker/add", data)
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.success) {
-          toast.success(response.data.message);
-          nav("/login");
+    axios
+      .post(`${SEEKER_API_URL}/add`, data)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.success) {
+          toast.success(res.data.message);
+          navigate("/login");
         } else {
-          toast.error(response.data.message);
-          nav("/login");
+          toast.error(res.data.message);
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error);
-        nav("/login");
+      .catch((err) => {
+        console.log(err);
+        toast.error("An error occurred while signing up.");
       });
   };
-
+  // let data = {
+  //   name: name,
+  //   email: email,
+  //   phone: phone,
+  //   password: password,
+  //   role: role,
+  // };
+  // await axios
+  //   .post("http://localhost:3000/api/jobseeker/add", data)
+  //   .then((response) => {
+  //     console.log(response.data);
+  //     if (response.data.success) {
+  //       toast.success(response.data.message);
+  //       nav("/login");
+  //     } else {
+  //       toast.error(response.data.message);
+  //       nav("/login");
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.error("There was an error!", error);
+  //     nav("/login");
+  //   });
   return (
     <div>
       <Navbar />
@@ -55,6 +79,7 @@ const Signup = () => {
             <Label className="p-2">Name</Label>
             <Input
               type="text"
+              value={name}
               onChange={(e) => {
                 setName(e.target.value);
               }}
@@ -65,6 +90,7 @@ const Signup = () => {
             <Label className="p-2">Email</Label>
             <Input
               type="text"
+              value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -75,6 +101,7 @@ const Signup = () => {
             <Label className="p-2">Phone Number</Label>
             <Input
               type="text"
+              value={phone}
               onChange={(e) => {
                 setPhone(e.target.value);
               }}
@@ -85,6 +112,7 @@ const Signup = () => {
             <Label className="p-2">Password</Label>
             <Input
               type="password"
+              value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
@@ -95,12 +123,11 @@ const Signup = () => {
             <RadioGroup className="flex items-center gap-4 my-5">
               <Input
                 type="radio"
-                // checked={role === "jobseeker"}
-                // onChange={
-                //   (changeRole = (e) => {
-                //     setRole(e.target.value);
-                //   })
-                // }
+                value="jobseeker"
+                checked={role === "jobseeker"}
+                onChange={(e) => {
+                  setRole(e.target.value);
+                }}
                 className="cursor-pointer"
               />
               <div className="flex items-center space-x-2 cursor-pointer">
@@ -109,19 +136,18 @@ const Signup = () => {
               <div className="flex items-center space-x-2 cursor-pointer">
                 <Input
                   type="radio"
-                  // checked={role === "employer"}
-                  // onChange={
-                  //   (changeEmployer = (e) => {
-                  //     setEmployer(e.target.value);
-                  //   })
-                  // }
+                  value="employer"
+                  checked={role === "employer"}
+                  onChange={(e) => {
+                    setRole(e.target.value);
+                  }}
                   className="cursor-pointer"
                 />
                 <Label htmlFor="option-two">Employer</Label>
               </div>
             </RadioGroup>
           </div>
-          <Button type="submit" className="w-full my-4">
+          <Button type="submit" value="submit" className="w-full my-4">
             Sign Up
           </Button>
           <span className="text-sm">

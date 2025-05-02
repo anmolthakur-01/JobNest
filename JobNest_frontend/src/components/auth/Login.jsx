@@ -6,21 +6,33 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Toaster } from "sonner";
 
 const Login = () => {
-  const [input, setInput] = useState({
-    email: "",
-    password: "",
-    role: "",
-  });
-
-  const changeEventHandler = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });  // ...input used to create a shallow copy of the input state, e.target.name (name)attribute used as the key in the input object,e.target.value assigned to the corresponding key,  the [e.target.name]: e.target.value part updates or adds a new key-value pair to the input object.
-  };
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [role, setRole] = useState();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(input);
+
+    try {
+      const res = await axios.post(`${SEEKER_API_URL}/login`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      if (res.data.message) {
+        Toaster.success(res.data.message);
+        navigate("/");
+      } else {
+        Toaster.error("Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.log("There was an error!", error);
+      Toaster.error(error.response.data.message);
+    }
   };
 
   return (
@@ -36,9 +48,9 @@ const Login = () => {
             <Label className="p-2">Email</Label>
             <Input
               type="text"
-              value={input.email}
-              name="email"
-              onChange={changeEventHandler}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               placeholder="Example@abc.com"
             />
           </div>
@@ -46,9 +58,9 @@ const Login = () => {
             <Label className="p-2">Password</Label>
             <Input
               type="password"
-              value={input.password}
-              name="password"
-              onChange={changeEventHandler}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               placeholder="Enter password"
             />
           </div>
@@ -56,10 +68,11 @@ const Login = () => {
             <RadioGroup className="flex items-center gap-4 my-5">
               <Input
                 type="radio"
-                name="role"
                 value="jobseeker"
-                checked={input.role === "jobseeker"}
-                onChange={changeEventHandler}
+                checked={role === "jobseeker"}
+                onChange={(e) => {
+                  setRole(e.target.value);
+                }}
                 className="cursor-pointer"
               />
               <div className="flex items-center space-x-2 cursor-pointer">
@@ -68,10 +81,11 @@ const Login = () => {
               <div className="flex items-center space-x-2 cursor-pointer">
                 <Input
                   type="radio"
-                  name="role"
                   value="employer"
-                  checked={input.role === "employer"}
-                  onChange={changeEventHandler}
+                  checked={role === "employer"}
+                  onChange={(e) => {
+                    setRole(e.target.value);
+                  }}
                   className="cursor-pointer"
                 />
                 <Label htmlFor="option-two">Employer</Label>

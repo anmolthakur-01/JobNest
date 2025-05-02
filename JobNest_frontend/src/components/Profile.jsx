@@ -56,17 +56,17 @@ const Profile = () => {
             <div>
               <h1 className="font-medium text-xl">
                 {/* {user?.fullname} */}
-                {/* Sahil Patel */}
+                Anmol
               </h1>
               <p>
                 {/* {user?.profile?.bio} */}
-                {/* Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corrupti, commodi earum ipsam cupiditate ipsum. */}
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Corrupti, commodi earum ipsam cupiditate ipsum.
               </p>
             </div>
           </div>
           <Button
-            // onClick={() => setOpen(true)}
+            onClick={() => setOpen(true)}
             className="text-right"
             variant="outline"
           >
