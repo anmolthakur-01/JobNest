@@ -9,6 +9,24 @@ const middle = require("../middleware/multer");
 const empl = middle.employerUpload;
 const seeker = middle.jobseekerUpload;
 
+
+//new
+const {
+  newlogin,
+  newregister,
+  // updateProfile,
+} = require("../controllers/user.controller");
+// const isAuthenticated = require("../middleware/isAuthenticated.js");
+//new end
+
+//new routes
+router.post("/newregister", newregister);
+router.post("/newlogin", newlogin);
+// router.post("/profile/update", isAuthenticated, updateProfile);
+//new routes end
+
+
+
 // Job Category Routes
 router.post("/category/add", categoryController.addJobCategory);
 router.post("/category/getall", categoryController.getAllCategory);

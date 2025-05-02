@@ -1,12 +1,17 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
+
 const app = express();
+
 const cors = require("cors");
 app.use(cors());
 
 const bodyparser = require("body-parser");
 app.use(bodyparser.json);
-const db = require("./config/db");
 
+app.use(cookieParser());
+
+const db = require("./config/db");
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(express.json());
 

@@ -1,8 +1,8 @@
-import { User } from "../server/models/user.model.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+const User = require("../models/user.model");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-export const register = async (req, res) => {
+const newregister = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, password, role } = req.body;
 
@@ -45,7 +45,7 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+const newlogin = async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
@@ -110,7 +110,7 @@ export const login = async (req, res) => {
   }
 };
 
-export const logout = async (req, res) => {
+const newlogout = async (req, res) => {
   try {
     return res.status(200).cookie("token", "", { maxAge: 0 }).json({
       message: "Logged out successfully.",
@@ -121,7 +121,7 @@ export const logout = async (req, res) => {
   }
 };
 
-export const updateProfile = async (req, res) => {
+const updateProfile = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
 
@@ -164,7 +164,7 @@ export const updateProfile = async (req, res) => {
       email: user.email,
       phoneNumber: user.phoneNumber,
       role: user.role,
-    //   profile: user.profile,
+      //   profile: user.profile,
     };
 
     return res.status(200).json({
@@ -175,4 +175,11 @@ export const updateProfile = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+module.exports = {
+  newregister,
+  newlogin,
+  newlogout,
+  updateProfile,
 };
