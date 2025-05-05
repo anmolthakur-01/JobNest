@@ -1,8 +1,8 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const adminroutes = require("./routes/apiRoutes");
 
 const app = express();
-
 const cors = require("cors");
 app.use(cors());
 
@@ -15,7 +15,6 @@ const db = require("./config/db");
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(express.json());
 
-const adminroutes = require("./routes/apiRoutes");
 app.use("/api", adminroutes);
 
 const seeder = require("./config/seeder");
