@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
-const secret = "ljhgjbkjchjvkjblvbkjbvk";
+const secretKey = 'kjbkuhkjlgiyfg'
 
 export const register = async (req, res) => {   
     try {
@@ -82,7 +82,7 @@ export const login = async (req, res) => {
         const tokenData = {
             userId: user._id
         }
-        const token = await jwt.sign(tokenData, secret, { expiresIn: '1d' });
+        const token = await jwt.sign(tokenData, secretKey, { expiresIn: '1d' });
 
         user = {
             _id: user._id,
