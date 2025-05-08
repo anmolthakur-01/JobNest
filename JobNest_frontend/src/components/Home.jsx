@@ -13,7 +13,6 @@ const Home = () => {
       <Hero />
       <CategoryCarousel />
       <LatestJobs />
-      <LatestJobsCards/>
       <Footer />
     </>
   );

@@ -7,8 +7,8 @@ const addJobPost = (req, res) => {
   if (!req.body.jobType) validationerror.push("jobType is required.");
   if (!req.body.salaryPackage)
     validationerror.push("salaryPackage is required.");
-  if (!req.body.skillsRequired)
-    validationerror.push("skillsRequired is required.");
+  // if (!req.body.skillsRequired)
+    // validationerror.push("skillsRequired is required.");
   if (!req.body.experience) validationerror.push("experience is required.");
   if (!req.body.jobDuration) validationerror.push("jobDuration is required.");
   if (!req.body.jobDescription)
@@ -41,7 +41,7 @@ const addJobPost = (req, res) => {
           postObj.jobTitle = req.body.jobTitle;
           postObj.jobType = req.body.jobType;
           postObj.salaryPackage = req.body.salaryPackage;
-          postObj.skillsRequired = req.body.skillsRequired;
+          // postObj.skillsRequired = req.body.skillsRequired;
           postObj.experience = req.body.experience;
           postObj.jobDuration = req.body.jobDuration;
           postObj.jobDescription = req.body.jobDescription;
@@ -169,8 +169,8 @@ const updatePost = (req, res) => {
           if (req.body.jobType) postData.jobType = req.body.jobType;
           if (req.body.salaryPackage)
             postData.salaryPackage = req.body.salaryPackage;
-          if (req.body.skillsRequired)
-            postData.skillsRequired = req.body.skillsRequired;
+          // if (req.body.skillsRequired)
+          //   postData.skillsRequired = req.body.skillsRequired;
           if (req.body.experience) postData.experience = req.body.experience;
           if (req.body.jobDuration) postData.jobDuration = req.body.jobDuration;
           if (req.body.jobDescription)
