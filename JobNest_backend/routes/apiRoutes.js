@@ -9,14 +9,14 @@ const middle = require("../middleware/multer");
 const empl = middle.employerUpload;
 const seeker = middle.jobseekerUpload;
 
-const newregister = require("../controllers/user.controller");
-const newlogin = require("../controllers/user.controller");
+// const newregister = require("../controllers/user.controller");
+// const newlogin = require("../controllers/user.controller");
 // const isAuthenticated = require("../middleware/isAuthenticated.js");
 //new end
 
 //new routes
-router.use("/newregister", newregister);
-router.use("/newlogin", newlogin);
+// router.use("/newregister", newregister);
+// router.use("/newlogin", newlogin);
 // router.post("/profile/update", isAuthenticated, updateProfile);
 //new routes end
 

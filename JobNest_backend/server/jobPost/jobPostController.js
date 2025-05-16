@@ -2,7 +2,7 @@ const Post = require("./jobPostModel");
 
 const addJobPost = (req, res) => {
   var validationerror = [];
-  if (!req.body.jobCategory) validationerror.push("jobCategory is required.");
+  // if (!req.body.jobCategory) validationerror.push("jobCategory is required.");
   if (!req.body.jobTitle) validationerror.push("jobTitle is required.");
   if (!req.body.jobType) validationerror.push("jobType is required.");
   if (!req.body.salaryPackage)
@@ -23,18 +23,20 @@ const addJobPost = (req, res) => {
       message: "Data not found!",
       error: validationerror,
     });
-  } else {
-    // the code below checking if the jobCategory already exists in the database
-    Post.findOne({ jobCategory: req.body.jobCategory })
-      .then((post) => {
-        if (post) {
-          res.send({
-            status: 420,
-            success: false,
-            message: "Job Post already exists",
-            data: post,
-          });
-        } else {
+  } 
+  // else {
+  //   // the code below checking if the jobCategory already exists in the database
+  //   Post.findOne({ jobCategory: req.body.jobCategory })
+  //     .then((post) => {
+  //       if (post) {
+  //         res.send({
+  //           status: 420,
+  //           success: false,
+  //           message: "Job Post already exists",
+  //           data: post,
+  //         });
+  //       }
+         else {
           // If the jobCategory does not exist, the code below creates a new jobCategory object
           const postObj = new Post();
           postObj.jobCategory = req.body.jobCategory;
@@ -62,16 +64,16 @@ const addJobPost = (req, res) => {
               });
             });
         }
-      })
-      .catch((err) => {
-        res.send({
-          status: 500,
-          success: false,
-          message: "Error while finding jobCategory",
-          error: err.message,
-        });
-      });
-  }
+      // })
+      // .catch((err) => {
+      //   res.send({
+      //     status: 500,
+      //     success: false,
+      //     message: "Error while finding jobCategory",
+      //     error: err.message,
+      //   });
+      // });
+  // }
 };
 
 const getAllPost = (req, res) => {

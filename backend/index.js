@@ -33,7 +33,7 @@ app.use("/api/v1/application", applicationRoute);
 
 
 
-app.listen(3000,()=>{
+app.listen(4000,()=>{
     connectDB();
-    console.log(`Server running at port 3000`);
+    console.log(`Server running at port 4000`);
 })
